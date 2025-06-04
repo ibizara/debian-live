@@ -1,14 +1,32 @@
 #!/bin/bash
 set -e
 
-# Ensure dpkg-name is available
-if ! command -v dpkg-name >/dev/null 2>&1; then
-    echo "[*] dpkg-name not found. Installing dpkg-dev..."
-    sudo apt-get update
-    sudo apt-get install -y dpkg-dev
-fi
+REQUIRED_PACKAGES=(curl dpkg-dev gnupg wget)
 
-echo "[*] Downloading required packages..."
+# --- Check required packages ---
+echo "[*] Checking required packages..."
+MISSING_PACKAGES=()
+
+for pkg in "${REQUIRED_PACKAGES[@]}"; do
+    if ! dpkg -s "$pkg" >/dev/null 2>&1; then
+        MISSING_PACKAGES+=("$pkg")
+    fi
+done
+
+if [ ${#MISSING_PACKAGES[@]} -gt 0 ]; then
+    echo "[!] The following packages are required but not installed:"
+    printf '  - %s\n' "${MISSING_PACKAGES[@]}"
+    echo ""
+    read -rp "[?] Install missing packages with 'sudo apt install'? [Y/n]: " RESP
+    RESP=${RESP:-Y}
+    if [[ "$RESP" =~ ^[Yy]$ ]]; then
+        sudo apt update
+        sudo apt install -y "${MISSING_PACKAGES[@]}"
+    else
+        echo "[!] Cannot continue without required packages."
+        exit 1
+    fi
+fi
 
 # --- Tor Browser ---
 TOR_DIR="config/includes.chroot/usr/local/tor-browser"
@@ -19,6 +37,7 @@ chmod 700 "$TOR_GPG_HOMEDIR"
 echo "[*] Cleaning old Tor Browser files..."
 rm -f "$TOR_DIR"/*.tar.xz*
 
+echo "[*] Fetching latest Tor Browser release..."
 LATEST=$(curl -s https://archive.torproject.org/tor-package-archive/torbrowser/ \
   | grep -oP '(?<=href=")[0-9]+\.[0-9]+(\.[0-9]+)?(?=/")' | sort -V | tail -n1)
 
@@ -75,3 +94,5 @@ wget -q -nc -O "$PKG_DIR/$VC_FILE" "$VC_URL"
 # Rename immediately for live-build compatibility
 dpkg-name -o "$PKG_DIR/$VC_FILE"
 
+# --- Set permission for _apt ---
+find "$PKG_DIR" -name "*.deb" -exec chmod o+r {} \; 2>/dev/null
