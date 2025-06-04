@@ -26,6 +26,7 @@ A custom Debian Live ISO tailored for privacy, UK localisation, and secure brows
 
 1. Run `./rebuild.sh` to build the ISO and use `-s | --skip-download` if needed.
 2. Output will be a bootable hybrid ISO `live-image-amd64.hybrid.iso`.
+3. Default username `user` and password `live`
 
 ---
 
