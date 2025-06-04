@@ -127,7 +127,7 @@ NAT-T          : UDP 4500
 SOCKS Proxy    : TCP 1080 (optional)
 ===============================
 Helpful commands:
-curl -s https://{server}/{this-script}.sh | sudo bash
+curl -s https://raw.githubusercontent.com/ibizara/debian-live/refs/heads/main/provision-vpn-server.sh | sudo bash
 sudo iptables -t nat -L -n -v
 sudo journalctl -u strongswan-starter -f
 sudo journalctl -u danted -f
