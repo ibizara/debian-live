@@ -14,18 +14,18 @@ A custom Debian Live ISO tailored for privacy, UK localisation, and secure brows
 
 ---
 
+## Requirements
+
+- Debian-based host OS
+- `apt install curl dpkg-dev gnupg live-build sudo wget`
+- `chmod +x rebuild.sh`
+
+---
+
 ## Build Process
 
 1. Run `./rebuild.sh` to build the ISO and use `-s | --skip-download` if needed.
 2. Output will be a bootable hybrid ISO `live-image-amd64.hybrid.iso`.
-
----
-
-## Requirements
-
-- Debian-based host OS
-- `live-build` and related dependencies (incl. `dpkg-dev`)
-- Sudo/root privileges for certain operations
 
 ---
 
