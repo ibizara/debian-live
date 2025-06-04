@@ -60,8 +60,7 @@ chmod +x download.sh \
   config/includes.chroot/usr/local/bin/*.sh \
   config/includes.chroot/etc/xdg/autostart/*.desktop \
   config/includes.chroot/usr/share/applications/*.desktop 2>/dev/null
-chmod 600 config/includes.chroot/etc/strongswan/ipsec.secrets 2>/dev/null-
-chmod o+r config/packages.chroot/*.deb 2>/dev/null
+chmod 600 config/includes.chroot/etc/strongswan/ipsec.secrets 2>/dev/null
 
 # --- Run downloads unless skipped ---
 if [ "$SKIP_DOWNLOAD" = false ]; then
