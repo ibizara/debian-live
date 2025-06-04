@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+echo "[HOOK] File: 99-install-torbrowser.chroot"
+echo "[HOOK] Installing pre-downloaded Tor Browser..."
+
+# Paths
+TARBALL_DIR="/usr/local/tor-browser"
+INSTALL_DIR="/home/user/.local/share/torbrowser/tbb/x86_64"
+
+# Find the tarball (assumes only one matching tarball is present)
+TARBALL=$(find "$TARBALL_DIR" -name 'tor-browser-linux*.tar.xz' | sort | tail -n1)
+
+# Sanity check
+if [[ -z "$TARBALL" ]]; then
+    echo "[HOOK] No Tor Browser tarball found in $TARBALL_DIR"
+    exit 1
+fi
+
+echo "[HOOK] Extracting $TARBALL to $INSTALL_DIR..."
+mkdir -p "$INSTALL_DIR"
+tar -xf "$TARBALL" -C "$INSTALL_DIR" --strip-components=1
+
+# Add user.js to suppress first-run behaviour
+PREFS_DIR="$INSTALL_DIR/Browser/TorBrowser/Data/Browser/profile.default"
+mkdir -p "$PREFS_DIR"
+
+cat <<EOF > "$PREFS_DIR/user.js"
+user_pref("intl.locale.requested", "en-GB");
+user_pref("intl.accept_languages", "en-GB, en");
+user_pref("browser.startup.homepage_override.mstone", "ignore");
+user_pref("browser.startup.homepage_override.buildID", "");
+user_pref("browser.startup.homepage_override.torbrowser.version", "");
+user_pref("torbrowser.settings.quickstart.enabled", false);
+user_pref("doh-rollout.home-region", "GB");
+user_pref("toolkit.telemetry.cachedClientID", "");
+user_pref("extensions.webextensions.uuids", "{}");
+user_pref("layout.spellcheckDefault", 1);
+user_pref("privacy.resistFingerprinting", true);
+user_pref("privacy.resistFingerprinting.letterboxing", true);
+user_pref("privacy.firstparty.isolate", true);
+EOF
+
+# Correct permissions
+chown -R 1000:1000 /home/user/.local
+
+echo "[HOOK] Tor Browser installed successfully with user.js set at $PREFS_DIR"

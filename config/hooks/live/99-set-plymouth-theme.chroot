@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "[HOOK] File: 99-set-plymouth-theme.chroot"
+echo "[HOOK] Setting Plymouth theme to 'connect'..."
+
+plymouth-set-default-theme -R connect
+
+echo "[HOOK] Plymouth theme applied."

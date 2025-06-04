@@ -1,0 +1,12 @@
+[Unit]
+Description=Restore iptables firewall rules
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/iptables-restore /etc/iptables.rules
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

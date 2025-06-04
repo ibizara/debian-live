@@ -1,0 +1,44 @@
+# Base
+console-setup
+feh
+hunspell-en-gb
+keyboard-configuration
+lightdm
+locales
+mate-desktop-environment
+plymouth
+systemd-timesyncd
+tzdata
+xserver-xorg
+
+# Network
+network-manager
+network-manager-gnome
+network-manager-strongswan
+strongswan
+strongswan-swanctl
+systemd-resolved
+
+# Tools & Utilities
+curl
+dnsutils
+filezilla
+firefox-esr
+firejail
+gnupg
+htop
+iftop
+iotop
+iptables
+mozo
+putty-tools
+screen
+seahorse
+tcpdump
+torbrowser-launcher
+torsocks
+traceroute
+transmission
+tree
+wget
+whois

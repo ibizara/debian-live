@@ -1,0 +1,65 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableProfileImport": true,
+    "DontCheckDefaultBrowser": true,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "Homepage": {
+      "URL": "about:blank",
+      "StartPage": "homepage",
+      "Locked": false
+    },
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://9.9.9.9/dns-query"
+    },
+    "Extensions": {
+      "Install": [
+        "file:///usr/local/share/ublock-origin.xpi"
+      ]
+    },
+    "Preferences": {
+      "browser.safebrowsing.malware.enabled": false,
+      "browser.safebrowsing.phishing.enabled": false,
+      "privacy.donottrackheader.enabled": true,
+      "privacy.globalprivacycontrol.enabled": true,
+      "privacy.globalprivacycontrol.functionality.enabled": true,
+      "privacy.resistFingerprinting": true,
+      "privacy.trackingprotection.enabled": false,
+      "privacy.trackingprotection.socialtracking.enabled": true,
+      "privacy.partition.network_state": true,
+      "privacy.firstparty.isolate": true,
+      "network.cookie.cookieBehavior": 1,
+      "network.http.referer.XOriginPolicy": 2,
+      "network.prefetch-next": false,
+      "network.dns.disablePrefetch": true,
+      "network.predictor.enabled": false,
+      "network.http.speculative-parallel-limit": 0,
+      "media.peerconnection.enabled": false,
+      "browser.search.suggest.enabled": false,
+      "browser.urlbar.suggest.searches": false,
+      "browser.urlbar.suggest.engines": false,
+      "browser.urlbar.suggest.topsites": false,
+      "browser.urlbar.suggest.history": false,
+      "browser.urlbar.suggest.bookmark": false,
+      "browser.urlbar.suggest.openpage": false,
+      "browser.urlbar.suggest.calculator": false,
+      "browser.newtabpage.activity-stream.feeds.snippets": false,
+      "browser.newtabpage.activity-stream.feeds.section.topstories": false,
+      "browser.newtabpage.activity-stream.showSponsored": false,
+      "browser.newtabpage.activity-stream.system.showSponsored": false,
+      "browser.newtabpage.activity-stream.default.sites": "",
+      "browser.newtabpage.pinned": "[]",
+      "browser.newtabpage.enabled": false,
+      "browser.newtab.preload": false,
+      "browser.newtabpage.activity-stream.prerender": false,
+      "browser.tabs.loadInBackground": false,
+      "browser.sessionstore.restore_on_demand": false,
+      "browser.shell.checkDefaultBrowser": false,
+      "browser.startup.page": 1
+    }
+  }
+}

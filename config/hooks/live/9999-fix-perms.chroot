@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "[HOOK] File: 9999-fix-perms.chroot"
+echo "[HOOK] Setting correct ownership for /home/user..."
+
+chown -R -h 1000:1000 /home/user
+
+echo "[HOOK] Ownership set to UID 1000 / GID 1000."

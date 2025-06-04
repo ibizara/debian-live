@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "[HOOK] File: 99-set-ntp.chroot"
+echo "[HOOK] Setting custom NTP servers..."
+
+mkdir -p /etc/systemd/timesyncd.conf.d
+cat <<EOF > /etc/systemd/timesyncd.conf.d/override.conf
+[Time]
+NTP=ntp.quad9.net
+FallbackNTP=pool.ntp.org
+EOF
+
+echo "[HOOK] NTP server configuration complete."

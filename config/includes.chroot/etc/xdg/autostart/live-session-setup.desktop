@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Live Session Setup
+Exec=/usr/local/bin/live-session-setup.sh
+OnlyShowIn=MATE;
+X-GNOME-Autostart-enabled=true
+NoDisplay=true

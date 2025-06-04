@@ -1,0 +1,12 @@
+[Unit]
+Description=DNS-over-TLS with Quad9
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/dns-over-tls.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

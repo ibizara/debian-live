@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "[HOOK] File: 99-firefox-policies.chroot"
+echo "[HOOK] Installing Firefox policies..."
+
+# Copy policies.json to Firefox system-wide location
+install -Dm644 /etc/firefox-esr/policies/policies.json /usr/lib/firefox-esr/distribution/policies.json
+
+echo "[HOOK] Firefox policies installed."

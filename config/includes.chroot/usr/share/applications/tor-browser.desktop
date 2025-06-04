@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Tor Browser (Sandboxed)
+GenericName=Tor Browser (Sandboxed)
+Comment=Launch Tor Browser in Firejail
+Exec=firejail /home/user/.local/share/torbrowser/tbb/x86_64/Browser/start-tor-browser
+Terminal=false
+Type=Application
+Icon=torbrowser
+Categories=Network;WebBrowser;
+StartupWMClass=Tor Browser

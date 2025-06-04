@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "[HOOK] File: 99-enable-services.chroot"
+echo "[HOOK] Enabling systemd services if present..."
+
+for svc in systemd-timesyncd dns-over-tls systemd-resolved iptables-restore; do
+    if systemctl list-unit-files | grep -q "^$svc.service"; then
+        echo "[HOOK] Enabling $svc.service..."
+        systemctl enable "$svc"
+    else
+        echo "[HOOK] $svc.service not found, skipping..."
+    fi
+done
+
+echo "[HOOK] Service enablement complete."

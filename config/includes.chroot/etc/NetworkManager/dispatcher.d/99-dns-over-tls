@@ -1,0 +1,11 @@
+#!/bin/bash
+
+INTERFACE="$1"
+STATUS="$2"
+
+/usr/bin/logger -t dns-over-tls "Interface: $INTERFACE, Status: $STATUS"
+
+# Only run when the interface comes up
+if [ "$STATUS" = "up" ]; then
+    /usr/local/bin/dns-over-tls.sh
+fi
