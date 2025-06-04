@@ -3,6 +3,33 @@ set -e
 
 SKIP_DOWNLOAD=false
 
+REQUIRED_PACKAGES=(curl dpkg-dev gnupg live-build sudo wget)
+
+# --- Check required packages ---
+echo "[*] Checking required packages..."
+MISSING_PACKAGES=()
+
+for pkg in "${REQUIRED_PACKAGES[@]}"; do
+    if ! dpkg -s "$pkg" >/dev/null 2>&1; then
+        MISSING_PACKAGES+=("$pkg")
+    fi
+done
+
+if [ ${#MISSING_PACKAGES[@]} -gt 0 ]; then
+    echo "[!] The following packages are required but not installed:"
+    printf '  - %s\n' "${MISSING_PACKAGES[@]}"
+    echo ""
+    read -rp "[?] Install missing packages with 'sudo apt install'? [Y/n]: " RESP
+    RESP=${RESP:-Y}
+    if [[ "$RESP" =~ ^[Yy]$ ]]; then
+        sudo apt update
+        sudo apt install -y "${MISSING_PACKAGES[@]}"
+    else
+        echo "[!] Cannot continue without required packages."
+        exit 1
+    fi
+fi
+
 # --- Parse Arguments ---
 while [[ "$#" -gt 0 ]]; do
     case "$1" in
@@ -25,6 +52,16 @@ while [[ "$#" -gt 0 ]]; do
     esac
     shift
 done
+
+# --- Make sure permissions are correct ---
+echo "[*] Setting permissions for build scripts, hooks, and sensitive files"
+chmod +x download.sh \
+  config/hooks/live/*.chroot \
+  config/includes.chroot/usr/local/bin/*.sh \
+  config/includes.chroot/etc/xdg/autostart/*.desktop \
+  config/includes.chroot/usr/share/applications/*.desktop 2>/dev/null
+chmod 600 config/includes.chroot/etc/strongswan/ipsec.secrets 2>/dev/null-
+chmod o+r config/packages.chroot/*.deb 2>/dev/null
 
 # --- Run downloads unless skipped ---
 if [ "$SKIP_DOWNLOAD" = false ]; then
@@ -49,11 +86,6 @@ sudo lb config \
   --mirror-binary http://ftp.uk.debian.org/debian \
   --mirror-binary-security http://security.debian.org/debian-security \
   --bootappend-live "boot=live components locales=en_GB.UTF-8 keyboard-layouts=gb timezone=Europe/London utc=yes"
-
-# --- Make sure hook scripts are executable ---
-echo "[*] Ensuring all hook scripts are executable..."
-find config/hooks/ -type f -exec chmod +x {} \;
-find config/includes.chroot/etc/profile.d/ -type f -exec chmod +x {} \; 2>/dev/null || true
 
 # --- Start build ---
 echo "[*] Starting ISO build..."
